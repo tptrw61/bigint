@@ -4,7 +4,6 @@ COV_FLAGS=-e 'catch.hpp|TestCases.cpp|BigInt.h'
 
 test: BigInt.cpp Helper.cpp TestCases.o TestMain.o BigInt.h Helper.h
 	g++ $(TEST_FLAGS) -o $@ BigInt.cpp Helper.cpp TestCases.o TestMain.o
-	./test
 
 coverage.html: test
 	gcovr $(COV_FLAGS) --html . -o $@
