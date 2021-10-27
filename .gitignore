@@ -1,0 +1,13 @@
+.vscode/*
+
+# compiled stuff
+*.o
+*.out
+*.a
+
+test
+
+coverage.*
+*.gcov
+*.gcno
+*.gcda
