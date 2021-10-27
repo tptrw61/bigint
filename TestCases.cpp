@@ -449,3 +449,7 @@ TEST_CASE("operator--", BIGINT_LABEL) {
 		REQUIRE(a == b);
 	}
 }
+
+//TODO: operator*
+
+//TODO: pow
