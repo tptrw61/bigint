@@ -244,35 +244,55 @@ TEST_CASE("operator>/operator<", BIGINT_LABEL) {
 		CHECK_FALSE(a > b);
 		CHECK_FALSE(a < b);
 		CHECK_FALSE(b > a);
-		REQUIRE_FALSE(b < a);
+		CHECK_FALSE(b < a);
+		CHECK(a >= b);
+		CHECK(a <= b);
+		CHECK(b >= a);
+		REQUIRE(b <= a);
 	}
 	SECTION("part 2") {
 		BigInt a = 50, b = 50;
 		CHECK_FALSE(a > b);
 		CHECK_FALSE(a < b);
 		CHECK_FALSE(b > a);
-		REQUIRE_FALSE(b < a);
+		CHECK_FALSE(b < a);
+		CHECK(a >= b);
+		CHECK(a <= b);
+		CHECK(b >= a);
+		REQUIRE(b <= a);
 	}
 	SECTION("part 3") {
 		BigInt a = 50, b = 500;
 		CHECK_FALSE(a > b);
 		CHECK(a < b);
 		CHECK(b > a);
-		REQUIRE_FALSE(b < a);
+		CHECK_FALSE(b < a);
+		CHECK_FALSE(a >= b);
+		CHECK(a <= b);
+		CHECK(b >= a);
+		REQUIRE_FALSE(b <= a);
 	}
 	SECTION("part 4") {
 		BigInt a = -50, b = 50;
 		CHECK_FALSE(a > b);
 		CHECK(a < b);
 		CHECK(b > a);
-		REQUIRE_FALSE(b < a);
+		CHECK_FALSE(b < a);
+		CHECK_FALSE(a >= b);
+		CHECK(a <= b);
+		CHECK(b >= a);
+		REQUIRE_FALSE(b <= a);
 	}
 	SECTION("part 5") {
 		BigInt a = -50, b = 500;
 		CHECK_FALSE(a > b);
 		CHECK(a < b);
 		CHECK(b > a);
-		REQUIRE_FALSE(b < a);
+		CHECK_FALSE(b < a);
+		CHECK_FALSE(a >= b);
+		CHECK(a <= b);
+		CHECK(b >= a);
+		REQUIRE_FALSE(b <= a);
 	}
 }
 
