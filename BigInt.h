@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <stdint.h>
+#include <string>
 
 class BigInt {
 public:
@@ -79,5 +80,8 @@ public:
 
 	bool operator<(const BigInt& rhs) const;
 	bool operator<=(const BigInt& rhs) const;
+
+	//to string
+	std::string str() const;
 };
 

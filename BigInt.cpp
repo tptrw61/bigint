@@ -1,6 +1,7 @@
 #include "BigInt.h"
 #include "Helper.h"
 #include <vector>
+#include <stdexcept>
 
 
 //class functions
@@ -187,7 +188,7 @@ BigInt& BigInt::operator++() {
 
 BigInt BigInt::operator++(int) {
 	BigInt x(*this);
-	++* this;
+	++(*this);
 	return x;
 }
 
@@ -210,7 +211,7 @@ BigInt& BigInt::operator--() {
 
 BigInt BigInt::operator--(int) {
 	BigInt x(*this);
-	--* this;
+	--(*this);
 	return x;
 }
 
@@ -281,6 +282,8 @@ BigInt& BigInt::operator*=(const BigInt& rhs) {
 
 BigInt BigInt::operator*(const BigInt& rhs) const {
 	//;-; bad implementation
+	if (IS_ZERO(m_bytes) || IS_ZERO(rhs.m_bytes))
+		return 0;
 	BigInt a;
 	const BigInt *big, *small;
 	if (compareVectors(m_bytes, rhs.m_bytes) > 0) {
@@ -290,7 +293,7 @@ BigInt BigInt::operator*(const BigInt& rhs) const {
 		big = &rhs;
 		small = this;
 	}
-	for (BigInt i; compareVectors(i.m_bytes, small->m_bytes) != 0; addOne(i.m_bytes)) {
+	for (BigInt i; compareVectors(i.m_bytes, small->m_bytes) != 0; ++i) {
 		a += *big;
 	}
 	if (m_sign != rhs.m_sign) {
@@ -303,8 +306,12 @@ BigInt BigInt::operator*(const BigInt& rhs) const {
 }
 
 BigInt BigInt::pow(uint32_t exp) const {
+	if (exp == 0 && IS_ZERO(m_bytes)) throw new std::domain_error("0^0 is undefined");
+	if (IS_ZERO(m_bytes)) return 0;
 	if (exp == 0) return 1;
 	if (exp == 1) return *this;
+	if (exp == 2) return (*this) * (*this);
+	if (exp == 3) return (*this) * (*this) * (*this);
 	std::vector<uint32_t> walk({1});
 	std::vector<BigInt> mult;
 	mult.push_back(*this);
@@ -369,4 +376,9 @@ bool BigInt::operator<=(const BigInt& rhs) const {
 	if (!m_sign)
 		return compareVectors(m_bytes, rhs.m_bytes) <= 0;
 	return compareVectors(m_bytes, rhs.m_bytes) >= 0; //mult by -1 flips inequality
+}
+
+//TODO: complete this method
+std::string BigInt::str() const {
+	return "";
 }

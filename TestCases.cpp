@@ -396,29 +396,29 @@ TEST_CASE("operator++", BIGINT_LABEL) {
 	SECTION("zero") {
 		BigInt a(0);
 		BigInt b(1);
-		++a;
+		a++;
 		REQUIRE(a == b);
 	}
 	SECTION("positive") {
 		BigInt a(1);
 		BigInt b(2);
-		++a;
+		a++;
 		REQUIRE(a == b);
 	}
 	SECTION("negative") {
 		BigInt a(-2);
 		BigInt b(-1);
-		++a;
+		a++;
 		REQUIRE(a == b);
 	}
 	SECTION("neg one") {
 		BigInt a(-1);
 		BigInt b(0);
-		CHECK(IS_ONE(a.bytes()));
-		CHECK(a.sign());
-		CHECK(IS_ZERO(b.bytes()));
-		CHECK(!b.sign());
-		++a;
+		//CHECK(IS_ONE(a.bytes()));
+		//CHECK(a.sign());
+		//CHECK(IS_ZERO(b.bytes()));
+		//CHECK(!b.sign());
+		a++;
 		REQUIRE(a == b);
 	}
 }
@@ -427,29 +427,78 @@ TEST_CASE("operator--", BIGINT_LABEL) {
 	SECTION("zero") {
 		BigInt a(0);
 		BigInt b(-1);
-		--a;
+		a--;
 		REQUIRE(a == b);
 	}
 	SECTION("positive") {
 		BigInt a(3);
 		BigInt b(2);
-		--a;
+		a--;
 		REQUIRE(a == b);
 	}
 	SECTION("negative") {
 		BigInt a(-2);
 		BigInt b(-3);
-		--a;
+		a--;
 		REQUIRE(a == b);
 	}
 	SECTION("one") {
 		BigInt a(1);
 		BigInt b(0);
-		--a;
+		a--;
 		REQUIRE(a == b);
 	}
 }
 
 //TODO: operator*
+TEST_CASE("operator*", BIGINT_LABEL) {
+	SECTION("positive * positive") {
+		BigInt a = 1234, b = 2345, c = 1234*2345;
+		BigInt ab = a * b;
+		REQUIRE(ab == c);
+	}
+	SECTION("negative * positive") {
+		BigInt a = -1234, b = 2345, c = -1234*2345;
+		BigInt ab = a * b;
+		REQUIRE(ab == c);
+	}
+	SECTION("positive * negative") {
+		BigInt a = 1234, b = -2345, c = 1234*(-2345);
+		BigInt ab = a * b;
+		REQUIRE(ab == c);
+	}
+	SECTION("negative * negative") {
+		BigInt a = -1234, b = -2345, c = -1234*(-2345);
+		BigInt ab = a * b;
+		REQUIRE(ab == c);
+	}
+	SECTION("zero * positive") {
+		BigInt a = 0, b = 2345, c = 0*2345;
+		BigInt ab = a * b;
+		REQUIRE(ab == c);
+	}
+	SECTION("zero * negative") {
+		BigInt a = 0, b = -2345, c = 0*(-2345);
+		BigInt ab = a * b;
+		REQUIRE(ab == c);
+	}
+	SECTION("positive * zero") {
+		BigInt a = 1234, b = 0, c = 1234*0;
+		BigInt ab = a * b;
+		REQUIRE(ab == c);
+	}
+	SECTION("negative * zero") {
+		BigInt a = -1234, b = 0, c = -1234*0;
+		BigInt ab = a * b;
+		REQUIRE(ab == c);
+	}
+	SECTION("zero * zero") {
+		BigInt a = 0, b = 0, c = 0*0;
+		BigInt ab = a * b;
+		REQUIRE(ab == c);
+	}
+}
 
 //TODO: pow
+
+//TODO: operator>> / operator<<
