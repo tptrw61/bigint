@@ -88,16 +88,14 @@ BigInt& BigInt::operator<<=(int n) {
 		m_bytes.insert(m_bytes.begin(), 0);
 		n -= 8;
 	}
-	bool b, next;
+	byte b, next;
 	resizeBy(m_bytes, 1);
 	for (int i = 0; i < n; i++) {
 		b = 0;
 		for (int j = 0; j < (int)size(); j++) {
-			next = (0x80 & m_bytes[j]) == 0x80;
+			next = m_bytes[j] >> 7;
 			m_bytes[j] <<= 1;
-			if (b) {
-				m_bytes[j] |= 1;
-			}
+			m_bytes[j] |= b;
 			b = next;
 		}
 	}
@@ -113,20 +111,29 @@ BigInt& BigInt::operator>>=(int n) {
 	while (n >= 8) {
 		m_bytes.erase(m_bytes.begin());
 		n -= 8;
+		if (m_bytes.size() == 0) {
+			m_bytes.push_back(0);
+			m_sign = 0;
+			return *this;
+		}
 	}
-	bool b, next;
+	byte b, next;
+	uint16_t help;
 	for (int i = 0; i < n; i++) {
 		b = 0;
 		for (int j = size() - 1; j >= 0; j--) {
-			next = (1 & m_bytes[j]) == 1;
-			m_bytes[i] >>= 1;
-			if (b) {
-				m_bytes[i] |= 0x80;
-			}
+			help = m_bytes[j];
+			help <<= 7;
+			next = (byte)help;
+			m_bytes[j] >>= 1;
+			m_bytes[j] |= b;
 			b = next;
 		}
 	}
 	reduce();
+	if (IS_ZERO(m_bytes)) {
+		m_sign = 0;
+	}
 	return *this;
 }
 BigInt BigInt::operator>>(int n) const {

@@ -502,3 +502,37 @@ TEST_CASE("operator*", BIGINT_LABEL) {
 //TODO: pow
 
 //TODO: operator>> / operator<<
+TEST_CASE("operator>>") {
+	BigInt a = 12345678789L, b;
+	int x;
+	SECTION("shift 0") {
+		x = 0;
+		a >>= x;
+		b = 12345678789L >> x;
+		REQUIRE(a == b);
+	}
+	SECTION("shift 1") {
+		x = 1;
+		a >>= x;
+		b = 12345678789L >> x;
+		REQUIRE(a == b);
+	}
+	SECTION("shift 8") {
+		x = 8;
+		a >>= x;
+		b = 12345678789L >> x;
+		REQUIRE(a == b);
+	}
+	SECTION("shift 9") {
+		x = 9;
+		a >>= x;
+		b = 12345678789L >> x;
+		REQUIRE(a == b);
+	}
+	SECTION("shift 69") {
+		x = 69;
+		a >>= x;
+		b = 0;
+		REQUIRE(a == b);
+	}
+}
