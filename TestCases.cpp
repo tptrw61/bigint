@@ -797,17 +797,17 @@ TEST_CASE("divmod", BIGINT_LABEL) {
 		}
 	}
 	SECTION("zero DIVMOD pos") {
-		n = 0;
-		d = 20;
-		ans = n.divmod(d);
-		CHECK(ans.first == 0);
-		REQUIRE(ans.second == 0);
+		q = r = 0;
+		q /= 20;
+		r %= 20;
+		CHECK(q == 0);
+		REQUIRE(r == 0);
 	}
 	SECTION("zero DIVMOD neg") {
-		n = 0;
-		d = -20;
-		ans = n.divmod(d);
-		CHECK(ans.first == 0);
-		REQUIRE(ans.second == 0);
+		q = r = 0;
+		q /= -20;
+		r %= -20;
+		CHECK(q == 0);
+		REQUIRE(r == 0);
 	}
 }
