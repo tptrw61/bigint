@@ -295,20 +295,23 @@ BigInt& BigInt::operator*=(const BigInt& rhs) {
 }
 
 BigInt BigInt::operator*(const BigInt& rhs) const {
-	//;-; bad implementation
 	if (IS_ZERO(m_bytes) || IS_ZERO(rhs.m_bytes))
 		return 0;
-	BigInt a;
-	const BigInt *big, *small;
+	BigInt a, big, small;
 	if (compareVectors(m_bytes, rhs.m_bytes) > 0) {
-		big = this;
-		small = &rhs;
+		big = *this;
+		small = rhs;
 	} else {
-		big = &rhs;
-		small = this;
+		big = rhs;
+		small = *this;
 	}
-	for (BigInt i; compareVectors(i.m_bytes, small->m_bytes) != 0; ++i) {
-		a += *big;
+	big.m_sign = small.m_sign = POSITIVE;
+	while (!IS_ZERO(small.m_bytes)) {
+		if (small.isOdd()) {
+			a += big;
+		}
+		small >>= 1;
+		big <<= 1;
 	}
 	if (m_sign != rhs.m_sign) {
 		a.m_sign = 1;

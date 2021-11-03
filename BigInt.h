@@ -6,6 +6,8 @@
 class BigInt {
 public:
 	using byte = uint8_t;
+
+	//for use with sign() and sign(bool)
 	static const bool POSITIVE = false;
 	static const bool NEGATIVE = true;
 private:
