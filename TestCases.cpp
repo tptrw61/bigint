@@ -577,3 +577,51 @@ TEST_CASE("operator<<") {
 		REQUIRE(a == b);
 	}
 }
+
+TEST_CASE("operator- (unary)", BIGINT_LABEL) {
+	BigInt a = 456321, b = -456321;
+	SECTION("pos to neg") {
+		REQUIRE(-a == b);
+	}
+	SECTION("neg to pos") {
+		REQUIRE(a == -b);
+	}
+}
+
+static int64_t loopPow(int64_t base, int exp) {
+	int64_t ans = 1;
+	for (int i = 0; i < exp; i++)
+		ans *= base;
+	return ans;
+}
+
+TEST_CASE("pow", BIGINT_LABEL) {
+	SECTION("0^10") {
+		int b = 0;
+		int e = 10;
+		BigInt base = b;
+		BigInt ans = base.pow(e);
+		REQUIRE(ans == loopPow(b, e));
+	}
+	SECTION("10^0") {
+		int b = 10;
+		int e = 0;
+		BigInt base = b;
+		BigInt ans = base.pow(e);
+		REQUIRE(ans == loopPow(b, e));
+	}
+	SECTION("1^12") {
+		int b = 1;
+		int e = 12;
+		BigInt base = b;
+		BigInt ans = base.pow(e);
+		REQUIRE(ans == loopPow(b, e));
+	}
+	SECTION("12^5") {
+		int b = 12;
+		int e = 5;
+		BigInt base = b;
+		BigInt ans = base.pow(e);
+		REQUIRE(ans == loopPow(b, e));
+	}
+}
