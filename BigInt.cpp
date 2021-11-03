@@ -186,14 +186,14 @@ bool BigInt::sign(bool _sign) {
 	return m_sign = _sign;
 }
 
-/* this should be getSign/setSign
-int BigInt::sign() const {
+// this should be getSign/setSign
+int BigInt::getSign() const {
 	//1 for positive, -1 for negative, 0 for zero
-	//use math rather than condithional
-	return -(m_sign * 2 - 1) - IS_ZERO(m_bytes);
+	if (IS_ZERO(m_bytes)) return 0;
+	return m_sign ? -1 : 1;
 }
-
-int BigInt::sign(int _sign) { //TODO:fix to use int arg
+/*
+int BigInt::setSign(int _sign) { //TODO:fix to use int arg
 	m_sign = _sign;
 	if (IS_ZERO(m_bytes))
 		m_sign = false;

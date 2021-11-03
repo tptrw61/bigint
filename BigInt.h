@@ -60,7 +60,7 @@ public:
 	bool sign(bool _sign);
 
 	//int versions
-	//int getSign() const;
+	int getSign() const;
 	//int setSign(int _sign);
 
 	BigInt operator-() const;

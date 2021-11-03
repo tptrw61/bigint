@@ -4,12 +4,12 @@
 #include <vector>
 #include <stdint.h>
 
-#define MACRO_LABEL "[.][macro]"
-#define HELPER_LABEL "[helper]"
-#define BIGINT_LABEL "[bigint]"
+#define MACRO_LABEL "[.][macro][all]"
+#define HELPER_LABEL "[helper][all]"
+#define BIGINT_LABEL "[bigint][all]"
 
 //helper test cases
-TEST_CASE("GET_BYTE macro", MACRO_LABEL) {
+TEST_CASE("GET_BYTE", MACRO_LABEL) {
 	SECTION("int32") {
 		int32_t x = 0x9834abcd;
 		REQUIRE((GET_BYTE(x, 0) == 0xcd));
@@ -47,7 +47,7 @@ TEST_CASE("GET_BYTE macro", MACRO_LABEL) {
 		REQUIRE((GET_BYTE(x, 7) == 0x98));
 	}
 }
-TEST_CASE("MAX macro", MACRO_LABEL) {
+TEST_CASE("MAX", MACRO_LABEL) {
 	int a = 10;
 	int b = 15;
 
@@ -56,7 +56,7 @@ TEST_CASE("MAX macro", MACRO_LABEL) {
 	REQUIRE((MAX(a, a) == 10));
 	REQUIRE((MAX(b, b) == 15));
 }
-TEST_CASE("IS_ZERO macro", MACRO_LABEL) {
+TEST_CASE("IS_ZERO", MACRO_LABEL) {
 	std::vector<byte> v;
 	SECTION("normal zero vector") {
 		v.push_back(0);
@@ -81,7 +81,7 @@ TEST_CASE("IS_ZERO macro", MACRO_LABEL) {
 		REQUIRE_FALSE((IS_ZERO(v)));
 	}
 }
-TEST_CASE("IS_ONE macro", MACRO_LABEL) {
+TEST_CASE("IS_ONE", MACRO_LABEL) {
 	std::vector<byte> v;
 	SECTION("normal 'one' vector") {
 		v.push_back(1);
@@ -832,5 +832,29 @@ TEST_CASE("str", BIGINT_LABEL) {
 			s += "0";
 		}
 		REQUIRE(x.str() == s);
+	}
+}
+
+TEST_CASE("swap", BIGINT_LABEL) {
+	BigInt a = 12345;
+	BigInt b = -54321;
+	a.swap(b);
+	CHECK(a.str() == "-54321");
+	REQUIRE(b.str() == "12345");
+}
+
+TEST_CASE("getSign", BIGINT_LABEL) {
+	BigInt x;
+	SECTION("positive") {
+		x = 123456789;
+		REQUIRE(x.getSign() == 1);
+	}
+	SECTION("positive") {
+		x = -123456789;
+		REQUIRE(x.getSign() == -1);
+	}
+	SECTION("zero") {
+		x = 0;
+		REQUIRE(x.getSign() == 0);
 	}
 }
