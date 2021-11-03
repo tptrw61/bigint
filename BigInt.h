@@ -78,8 +78,13 @@ public:
 	BigInt& operator*=(const BigInt& rhs);
 	BigInt operator*(const BigInt& rhs) const;
 
-	//BigInt& operator/=(const BigInt& rhs);
-	//BigInt operator/(const BigInt& rhs) const;
+	BigInt& operator/=(const BigInt& rhs);
+	BigInt operator/(const BigInt& rhs) const;
+
+	BigInt& operator%=(const BigInt& rhs);
+	BigInt operator%(const BigInt& rhs) const;
+
+	std::pair<BigInt, BigInt> divmod(const BigInt& rhs) const;
 
 	//
 	BigInt pow(uint32_t exp) const;

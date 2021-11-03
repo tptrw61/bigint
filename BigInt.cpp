@@ -350,6 +350,22 @@ BigInt BigInt::operator*(const BigInt& rhs) const {
 	return a;
 }
 
+BigInt& BigInt::operator/=(const BigInt& rhs) {
+	*this = *this / rhs;
+	return *this;
+}
+BigInt BigInt::operator/(const BigInt& rhs) const {
+	return divmod(rhs).first;
+}
+
+BigInt& BigInt::operator%=(const BigInt& rhs) {
+	*this = *this % rhs;
+	return *this;
+}
+BigInt BigInt::operator%(const BigInt& rhs) const {
+	return divmod(rhs).second;
+}
+
 /*
 if D = 0 then error(DivisionByZeroException) end
 Q := 0                  -- Initialize quotient and remainder to zero
@@ -363,16 +379,25 @@ for i := n − 1 .. 0 do  -- Where n is number of bits in N
   end
 end
 */
-/*
-BigInt& BigInt::operator/=(const BigInt& rhs) {
-	*this = *this / rhs;
-	return *this;
-}
-BigInt BigInt::operator/(const BigInt& rhs) const {
+std::pair<BigInt, BigInt> BigInt::divmod(const BigInt& rhs) const {
 	if (IS_ZERO(rhs.m_bytes)) throw new std::domain_error("divide by zero");
-	BigInt
+	if (IS_ZERO(bytes())) return std::pair<BigInt, BigInt>(0, 0);
+	BigInt q, r, d = rhs;
+	d.sign(POSITIVE);
+	for (int i = size() * 8 - 1; i >= 0; i--) {
+		r <<= 1;
+		r.bit(0, this->bit(i));
+		if (r >= d) {
+			r -= d;
+			q.bit(i, 1);
+		}
+	}
+	q.sign(sign() != rhs.sign());
+	if (sign()) {
+		r = rhs - r;
+	}
+	return std::pair<BigInt, BigInt>(q, r);
 }
-// */
 
 BigInt BigInt::pow(uint32_t exp) const {
 	if (exp == 0 && IS_ZERO(m_bytes)) throw new std::domain_error("0^0 is undefined");
