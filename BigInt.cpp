@@ -497,3 +497,13 @@ std::string BigInt::str() const {
 std::ostream& operator<<(std::ostream& os, const BigInt& v) {
 	return os << v.str();
 }
+
+BigInt operator+(int64_t lhs, const BigInt& rhs) {
+	return rhs + lhs;
+}
+BigInt operator-(int64_t lhs, const BigInt& rhs) {
+	return BigInt(lhs) - rhs;
+}
+BigInt operator*(int64_t lhs, const BigInt& rhs) {
+	return rhs * lhs;
+}

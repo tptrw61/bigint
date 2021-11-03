@@ -3,10 +3,12 @@
 #include "Helper.h"
 #include <vector>
 #include <stdint.h>
+#include <sstream>
 
 #define MACRO_LABEL "[.][macro][all]"
 #define HELPER_LABEL "[helper][all]"
 #define BIGINT_LABEL "[bigint][all]"
+#define FRIEND_LABEL "[friend][bigint][all]"
 
 //helper test cases
 TEST_CASE("GET_BYTE", MACRO_LABEL) {
@@ -856,5 +858,28 @@ TEST_CASE("getSign", BIGINT_LABEL) {
 	SECTION("zero") {
 		x = 0;
 		REQUIRE(x.getSign() == 0);
+	}
+}
+
+TEST_CASE("friend operators", FRIEND_LABEL) {
+	SECTION("operator<<") {
+		BigInt x = 12345678;
+		std::stringstream ss;
+		ss << x;
+		REQUIRE(ss.str() == x.str());
+	}
+	SECTION("math") {
+		int a = 1234;
+		int c = 5678;
+		BigInt b = c;
+		SECTION("operator+") {
+			REQUIRE((a + b) == (a + c));
+		}
+		SECTION("operator-") {
+			REQUIRE((a - b) == (a - c));
+		}
+		SECTION("operator*") {
+			REQUIRE((a * b) == (a * c));
+		}
 	}
 }

@@ -105,5 +105,10 @@ public:
 	std::string str() const;
 
 	friend std::ostream& operator<<(std::ostream& os, const BigInt& v);
+	
+	//friend versions of operators +, -, *
+	friend BigInt operator+(int64_t lhs, const BigInt& rhs);
+	friend BigInt operator-(int64_t lhs, const BigInt& rhs);
+	friend BigInt operator*(int64_t lhs, const BigInt& rhs);
 };
 
