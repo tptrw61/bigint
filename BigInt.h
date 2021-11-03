@@ -44,6 +44,10 @@ public:
 	//TODO: &, |, ^, ~
 
 	//math stuff
+
+	bool isEven() const;
+	bool isOdd() const;
+
 	//boolean versions
 	bool sign() const;
 	bool sign(bool _sign);

@@ -141,6 +141,13 @@ BigInt BigInt::operator>>(int n) const {
 	return x >>= n;
 }
 
+bool BigInt::isEven() const {
+	return (m_bytes[0] & 0x01) == 0x00;
+}
+bool BigInt::isOdd() const {
+	return (m_bytes[0] & 0x01) == 0x01;
+}
+
 bool BigInt::sign() const {
 	return m_sign;
 }

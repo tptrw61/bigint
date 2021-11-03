@@ -625,3 +625,32 @@ TEST_CASE("pow", BIGINT_LABEL) {
 		REQUIRE(ans == loopPow(b, e));
 	}
 }
+
+TEST_CASE("isEven()/isOdd()") {
+	BigInt a;
+	SECTION("zero") {
+		a = 0;
+		CHECK(a.isEven());
+		REQUIRE_FALSE(a.isOdd());
+	}
+	SECTION("positive even") {
+		a = 1000000;
+		CHECK(a.isEven());
+		REQUIRE_FALSE(a.isOdd());
+	}
+	SECTION("negative even") {
+		a = -1000000;
+		CHECK(a.isEven());
+		REQUIRE_FALSE(a.isOdd());
+	}
+	SECTION("positive odd") {
+		a = 1000005;
+		CHECK_FALSE(a.isEven());
+		REQUIRE(a.isOdd());
+	}
+	SECTION("negative odd") {
+		a = -1000005;
+		CHECK_FALSE(a.isEven());
+		REQUIRE(a.isOdd());
+	}
+}
