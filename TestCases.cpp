@@ -655,7 +655,7 @@ TEST_CASE("isEven()/isOdd()") {
 	}
 }
 
-TEST_CASE("bit()", BIGINT_LABEL) {
+TEST_CASE("bit", BIGINT_LABEL) {
 	BigInt a = 5;
 	SECTION("bit(index)") {
 		CHECK(a.bit(0));
@@ -675,5 +675,139 @@ TEST_CASE("bit()", BIGINT_LABEL) {
 		CHECK(a.bit(3));
 		a.bit(10, 1);
 		REQUIRE(a.bit(10));
+	}
+}
+
+TEST_CASE("divmod", BIGINT_LABEL) {
+	BigInt n, d, x, q, r;
+	int a, b;
+	std::pair<BigInt, BigInt> ans;
+	SECTION("part 1") {
+		a = 7;
+		b = 5;
+		n = a;
+		d = b;
+		SECTION("pos DIVMOD pos") {
+			q = n / d;
+			r = n % d;
+			x = d * q + r;
+			CHECK(q == (a / b));
+			CHECK(r == (a % b));
+			REQUIRE(n == x);
+		}
+		SECTION("neg DIVMOD pos") {
+			q = -n / d;
+			r = -n % d;
+			x = d * q + r;
+			CHECK(q == -((a / b) + 1));
+			CHECK(r == (b - (a % b)));
+			REQUIRE(-n == x);
+		}
+		SECTION("pos DIVMOD neg") {
+			q = n / -d;
+			r = n % -d;
+			x = -d * q + r;
+			CHECK(q == -(a / b));
+			CHECK(r == (a % b));
+			REQUIRE(n == x);
+		}
+		SECTION("neg DIVMOD neg") {
+			q = -n / -d;
+			r = -n % -d;
+			x = -d * q + r;
+			CHECK(q == ((a / b) + 1));
+			CHECK(r == (b - (a % b)));
+			REQUIRE(-n == x);
+		}
+	}
+	SECTION("part 2") {
+		a = 55;
+		b = 11;
+		n = a;
+		d = b;
+		SECTION("pos DIVMOD pos") {
+			q = n / d;
+			r = n % d;
+			x = d * q + r;
+			CHECK(q == (a / b));
+			CHECK(r == (a % b));
+			REQUIRE(n == x);
+		}
+		SECTION("neg DIVMOD pos") {
+			q = -n / d;
+			r = -n % d;
+			x = d * q + r;
+			CHECK(q == -((a / b) + 1));
+			CHECK(r == (b - (a % b)));
+			REQUIRE(-n == x);
+		}
+		SECTION("pos DIVMOD neg") {
+			q = n / -d;
+			r = n % -d;
+			x = -d * q + r;
+			CHECK(q == -(a / b));
+			CHECK(r == (a % b));
+			REQUIRE(n == x);
+		}
+		SECTION("neg DIVMOD neg") {
+			q = -n / -d;
+			r = -n % -d;
+			x = -d * q + r;
+			CHECK(q == ((a / b) + 1));
+			CHECK(r == (b - (a % b)));
+			REQUIRE(-n == x);
+		}
+	}
+	SECTION("part 3") {
+		a = 456546;
+		b = 123;
+		n = a;
+		d = b;
+		SECTION("pos DIVMOD pos") {
+			q = n / d;
+			r = n % d;
+			x = d * q + r;
+			CHECK(q == (a / b));
+			CHECK(r == (a % b));
+			REQUIRE(n == x);
+		}
+		SECTION("neg DIVMOD pos") {
+			q = -n / d;
+			r = -n % d;
+			x = d * q + r;
+			CHECK(q == -((a / b) + 1));
+			CHECK(r == (b - (a % b)));
+			REQUIRE(-n == x);
+		}
+		SECTION("pos DIVMOD neg") {
+			q = n / -d;
+			r = n % -d;
+			x = -d * q + r;
+			CHECK(q == -(a / b));
+			CHECK(r == (a % b));
+			REQUIRE(n == x);
+		}
+		SECTION("neg DIVMOD neg") {
+			q = -n / -d;
+			r = -n % -d;
+			x = -d * q + r;
+			CHECK(q == ((a / b) + 1));
+			CHECK(r == (b - (a % b)));
+			REQUIRE(-n == x);
+		}
+	}
+	SECTION("zero DIVMOD pos") {
+		n = 0;
+		d = 20;
+		ans = n.divmod(d);
+		CHECK(ans.first == 0);
+		REQUIRE(ans.second == 0);
+	}
+	SECTION("zero DIVMOD neg") {
+		n = 0;
+		d = -20;
+		ans = n.divmod(d);
+		CHECK(ans.first == 0);
+		REQUIRE(ans.second == 0);
 	}
 }

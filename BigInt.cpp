@@ -351,16 +351,14 @@ BigInt BigInt::operator*(const BigInt& rhs) const {
 }
 
 BigInt& BigInt::operator/=(const BigInt& rhs) {
-	*this = *this / rhs;
-	return *this;
+	return *this = divmod(rhs).first;
 }
 BigInt BigInt::operator/(const BigInt& rhs) const {
 	return divmod(rhs).first;
 }
 
 BigInt& BigInt::operator%=(const BigInt& rhs) {
-	*this = *this % rhs;
-	return *this;
+	return *this = divmod(rhs).second;
 }
 BigInt BigInt::operator%(const BigInt& rhs) const {
 	return divmod(rhs).second;
@@ -382,19 +380,26 @@ end
 std::pair<BigInt, BigInt> BigInt::divmod(const BigInt& rhs) const {
 	if (IS_ZERO(rhs.m_bytes)) throw new std::domain_error("divide by zero");
 	if (IS_ZERO(bytes())) return std::pair<BigInt, BigInt>(0, 0);
-	BigInt q, r, d = rhs;
+	BigInt q, r, n = *this, d = rhs;
+	n.sign(POSITIVE);
 	d.sign(POSITIVE);
 	for (int i = size() * 8 - 1; i >= 0; i--) {
 		r <<= 1;
-		r.bit(0, this->bit(i));
+		r.bit(0, n.bit(i));
 		if (r >= d) {
 			r -= d;
 			q.bit(i, 1);
 		}
 	}
-	q.sign(sign() != rhs.sign());
-	if (sign()) {
-		r = rhs - r;
+	if (sign() && !rhs.sign()) {
+		++q;
+		q.sign(NEGATIVE);
+		r = d - r;
+	} else if (!sign() && rhs.sign()) {
+		q.sign(NEGATIVE);
+	} else if (sign() && rhs.sign()) {
+		++q;
+		r = d - r;
 	}
 	return std::pair<BigInt, BigInt>(q, r);
 }
