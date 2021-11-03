@@ -654,3 +654,26 @@ TEST_CASE("isEven()/isOdd()") {
 		REQUIRE(a.isOdd());
 	}
 }
+
+TEST_CASE("bit()", BIGINT_LABEL) {
+	BigInt a = 5;
+	SECTION("bit(index)") {
+		CHECK(a.bit(0));
+		CHECK_FALSE(a.bit(1));
+		CHECK(a.bit(2));
+		CHECK_FALSE(a.bit(3));
+		REQUIRE_FALSE(a.bit(10));
+	}
+	SECTION("bit(index, value)") {
+		a.bit(0, 0);
+		CHECK_FALSE(a.bit(0));
+		a.bit(1, 1);
+		CHECK(a.bit(1));
+		a.bit(2, 0);
+		CHECK_FALSE(a.bit(2));
+		a.bit(3, 1);
+		CHECK(a.bit(3));
+		a.bit(10, 1);
+		REQUIRE(a.bit(10));
+	}
+}

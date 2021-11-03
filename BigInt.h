@@ -27,7 +27,10 @@ public:
 	const std::vector<byte>& bytes() const;
 	void reduce();
 	void swap(BigInt& other);
-	size_t size();
+	size_t size() const;
+
+	bool bit(int i) const;
+	bool bit(int i, bool value);
 
 	//assignment
 	BigInt& operator=(int64_t x);
@@ -75,6 +78,8 @@ public:
 	BigInt& operator*=(const BigInt& rhs);
 	BigInt operator*(const BigInt& rhs) const;
 
+	//BigInt& operator/=(const BigInt& rhs);
+	//BigInt operator/(const BigInt& rhs) const;
 
 	//
 	BigInt pow(uint32_t exp) const;

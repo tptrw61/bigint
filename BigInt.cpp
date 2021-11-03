@@ -53,8 +53,36 @@ void BigInt::swap(BigInt& other) {
 	other.m_sign = temp;
 }
 
-size_t BigInt::size() {
+size_t BigInt::size() const {
 	return m_bytes.size();
+}
+
+bool BigInt::bit(int i) const {
+	if (i < 0) throw new std::domain_error("index must be positive");
+	int byteIndex = i / 8;
+	int bitIndex = i % 8;
+	if (byteIndex >= (int)size()) {
+		return false;
+	}
+	return (m_bytes[byteIndex] & (1 << bitIndex)) != 0;
+}
+bool BigInt::bit(int i, bool value) {
+	if (i < 0) throw new std::domain_error("index must be positive");
+	int byteIndex = i / 8;
+	int bitIndex = i % 8;
+	if (byteIndex >= (int)size()) {
+		resizeTo(m_bytes, byteIndex+1);
+	}
+	if (value) {
+		m_bytes[byteIndex] |= 0x01 << bitIndex;
+	} else {
+		m_bytes[byteIndex] &= ~(0x01 << bitIndex);
+	}
+	reduce();
+	if (IS_ZERO(m_bytes)) {
+		m_sign = POSITIVE;
+	}
+	return value;
 }
 
 BigInt& BigInt::operator=(int64_t x) {
@@ -298,7 +326,7 @@ BigInt BigInt::operator*(const BigInt& rhs) const {
 	if (IS_ZERO(m_bytes) || IS_ZERO(rhs.m_bytes))
 		return 0;
 	BigInt a, big, small;
-	if (compareVectors(m_bytes, rhs.m_bytes) > 0) {
+	if (compareVectors(bytes(), rhs.bytes()) > 0) {
 		big = *this;
 		small = rhs;
 	} else {
@@ -306,7 +334,7 @@ BigInt BigInt::operator*(const BigInt& rhs) const {
 		small = *this;
 	}
 	big.m_sign = small.m_sign = POSITIVE;
-	while (!IS_ZERO(small.m_bytes)) {
+	while (!IS_ZERO(small.bytes())) {
 		if (small.isOdd()) {
 			a += big;
 		}
@@ -321,6 +349,30 @@ BigInt BigInt::operator*(const BigInt& rhs) const {
 	a.reduce();
 	return a;
 }
+
+/*
+if D = 0 then error(DivisionByZeroException) end
+Q := 0                  -- Initialize quotient and remainder to zero
+R := 0                     
+for i := n − 1 .. 0 do  -- Where n is number of bits in N
+  R := R << 1           -- Left-shift R by 1 bit
+  R(0) := N(i)          -- Set the least-significant bit of R equal to bit i of the numerator
+  if R ≥ D then
+    R := R − D
+    Q(i) := 1
+  end
+end
+*/
+/*
+BigInt& BigInt::operator/=(const BigInt& rhs) {
+	*this = *this / rhs;
+	return *this;
+}
+BigInt BigInt::operator/(const BigInt& rhs) const {
+	if (IS_ZERO(rhs.m_bytes)) throw new std::domain_error("divide by zero");
+	BigInt
+}
+// */
 
 BigInt BigInt::pow(uint32_t exp) const {
 	if (exp == 0 && IS_ZERO(m_bytes)) throw new std::domain_error("0^0 is undefined");
