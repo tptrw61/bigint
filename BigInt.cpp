@@ -479,5 +479,21 @@ bool BigInt::operator<=(const BigInt& rhs) const {
 
 //TODO: complete this method
 std::string BigInt::str() const {
-	return "";
+	BigInt n = *this;
+	std::pair<BigInt, BigInt> ans;
+	n.sign(POSITIVE);
+	std::string s;
+	std::string lookup = "0123456789";
+	while (n != 0) {
+		ans = n.divmod(10);
+		s = lookup[ans.second.bytes()[0]] + s;
+		n = ans.first;
+	}
+	if (sign())
+		s = '-' + s;
+	return s;
+}
+
+std::ostream& operator<<(std::ostream& os, const BigInt& v) {
+	return os << v.str();
 }

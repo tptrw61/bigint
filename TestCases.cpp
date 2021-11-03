@@ -811,3 +811,26 @@ TEST_CASE("divmod", BIGINT_LABEL) {
 		REQUIRE(r == 0);
 	}
 }
+
+TEST_CASE("str", BIGINT_LABEL) {
+	BigInt x;
+	SECTION("positive") {
+		x = 1234;
+		REQUIRE(x.str() == std::string("1234"));
+	}
+	SECTION("negative") {
+		x = -3211234;
+		REQUIRE(x.str() == std::string("-3211234"));
+	}
+	SECTION("really big") {
+		x = 10;
+		int p = 30;
+		x = x.pow(p);
+		CHECK(x.size() > sizeof(int64_t));
+		std::string s = "1";
+		for (int i = 0; i < p; i++) {
+			s += "0";
+		}
+		REQUIRE(x.str() == s);
+	}
+}

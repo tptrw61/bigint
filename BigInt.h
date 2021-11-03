@@ -2,6 +2,7 @@
 #include <vector>
 #include <stdint.h>
 #include <string>
+#include <ostream>
 
 class BigInt {
 public:
@@ -38,7 +39,8 @@ public:
 	BigInt& operator=(BigInt&& rhs);
 
 	//binary stuff
-	//void invertSize(int bytes); //??? idk what this was supposed to do
+	//increases size to 'bytes' bytes then inverts with ~
+	//BigInt invertAtLength(int bytes); 
 
 	BigInt& operator<<=(int n);
 	BigInt operator<<(int n) const;
@@ -101,5 +103,7 @@ public:
 
 	//to string
 	std::string str() const;
+
+	friend std::ostream& operator<<(std::ostream& os, const BigInt& v);
 };
 
