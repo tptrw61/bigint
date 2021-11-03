@@ -6,6 +6,8 @@
 class BigInt {
 public:
 	using byte = uint8_t;
+	static const bool POSITIVE = false;
+	static const bool NEGATIVE = true;
 private:
 	std::vector<byte> m_bytes;
 	bool m_sign;
