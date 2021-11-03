@@ -536,3 +536,44 @@ TEST_CASE("operator>>") {
 		REQUIRE(a == b);
 	}
 }
+
+TEST_CASE("operator<<") {
+	BigInt a = 1234L, b;
+	int x;
+	SECTION("shift 0") {
+		x = 0;
+		a <<= x;
+		b = 1234L << x;
+		REQUIRE(a == b);
+	}
+	SECTION("shift 1") {
+		x = 1;
+		a <<= x;
+		b = 1234L << x;
+		REQUIRE(a == b);
+	}
+	SECTION("shift 8") {
+		x = 8;
+		a <<= x;
+		b = 1234L << x;
+		REQUIRE(a == b);
+	}
+	SECTION("shift 9") {
+		x = 9;
+		a <<= x;
+		b = 1234L << x;
+		REQUIRE(a == b);
+	}
+	SECTION("shift 10") {
+		x = 10;
+		a <<= x;
+		b = 1234L << x;
+		REQUIRE(a == b);
+	}
+	SECTION("shift 15") {
+		x = 15;
+		a <<= x;
+		b = 1234L << x;
+		REQUIRE(a == b);
+	}
+}
