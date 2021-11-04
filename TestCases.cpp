@@ -323,6 +323,17 @@ TEST_CASE("operator>/operator<", BIGINT_LABEL) {
 		CHECK(b >= a);
 		REQUIRE_FALSE(b <= a);
 	}
+	SECTION("part 6") {
+		BigInt a = -50, b = -50;
+		CHECK_FALSE(a > b);
+		CHECK_FALSE(a < b);
+		CHECK_FALSE(b > a);
+		CHECK_FALSE(b < a);
+		CHECK(a >= b);
+		CHECK(a <= b);
+		CHECK(b >= a);
+		REQUIRE(b <= a);
+	}
 }
 
 TEST_CASE("operator+", BIGINT_LABEL) {
