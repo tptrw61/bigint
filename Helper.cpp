@@ -76,7 +76,7 @@ int compareVectors(const std::vector<byte>& l, const std::vector<byte>& r) {
 
 bool isInt(const std::string& s) {
 	if (s.empty()) return false;
-	if (!s[0] == '-' && !isdigit(s[0])) return false;
+	if (s[0] != '-' && !isdigit(s[0])) return false;
 	if (s[0] == '-' && s.size() == 1) return false;
 	for (int i = 1; i < (int)s.size(); i++) {
 		if (!isdigit(s[i])) {

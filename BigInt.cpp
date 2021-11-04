@@ -20,7 +20,7 @@ BigInt BigInt::fromStr(const std::string& s) {
 		x += s[i] - '0';
 	}
 	x.sign(sign);
-	return sign;
+	return x;
 }
 
 //class functions

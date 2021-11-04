@@ -195,6 +195,33 @@ TEST_CASE("removeLeadingZeros", HELPER_LABEL) {
 	}
 }
 
+TEST_CASE("isInt", HELPER_LABEL) {
+	SECTION("positive") {
+		REQUIRE(isInt("15498410840654098"));
+	}
+	SECTION("negative") {
+		REQUIRE(isInt("-15498410840654098"));
+	}
+	SECTION("zero") {
+		REQUIRE(isInt("0"));
+	}
+	SECTION("negative zero") {
+		REQUIRE(isInt("-0"));
+	}
+	SECTION("non-int") {
+		REQUIRE_FALSE(isInt("asdfsada"));
+	}
+	SECTION("minus sign") {
+		REQUIRE_FALSE(isInt("-"));
+	}
+	SECTION("empty string") {
+		REQUIRE_FALSE(isInt(""));
+	}
+	SECTION("partial int") {
+		REQUIRE_FALSE(isInt("1234lkjh"));
+	}
+}
+
 TEST_CASE("operator==", BIGINT_LABEL) {
 	SECTION("part 1") {
 		BigInt a = 500, b = 500;
@@ -882,4 +909,29 @@ TEST_CASE("friend operators", FRIEND_LABEL) {
 			REQUIRE((a * b) == (a * c));
 		}
 	}
+}
+
+TEST_CASE("string constructor/assignment", BIGINT_LABEL) {
+	SECTION("constructor") {
+		BigInt a("12345");
+		BigInt b("-67890");
+		BigInt c("0");
+		BigInt d("-0");
+		CHECK(a == BigInt(12345));
+		CHECK(b == BigInt(-67890));
+		CHECK(c == 0);
+		REQUIRE(d == 0);
+	}
+	SECTION("assignment") {
+		BigInt a, b, c, d;
+		a = b = c = d = 0;
+		a = "12345";
+		b = "-67890";
+		c = "0";
+		d = "-0";
+		CHECK(a == BigInt(12345));
+		CHECK(b == BigInt(-67890));
+		CHECK(c == 0);
+		REQUIRE(d == 0);
+	} 
 }
