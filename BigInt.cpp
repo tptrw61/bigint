@@ -202,6 +202,17 @@ bool BigInt::isOdd() const {
 	return (m_bytes[0] & 0x01) == 0x01;
 }
 
+BigInt BigInt::pos() const {
+	BigInt x = *this;
+	x.sign(POSITIVE);
+	return x;
+}
+BigInt BigInt::neg() const {
+	BigInt x = *this;
+	x.sign(NEGATIVE);
+	return x;
+}
+
 bool BigInt::sign() const {
 	return m_sign;
 }

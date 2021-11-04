@@ -935,3 +935,36 @@ TEST_CASE("string constructor/assignment", BIGINT_LABEL) {
 		REQUIRE(d == 0);
 	} 
 }
+
+TEST_CASE("pos", BIGINT_LABEL) {
+	BigInt x, y;
+	SECTION("positive") {
+		x = y = 1234;
+		REQUIRE(x.pos() == y);
+	}
+	SECTION("negative") {
+		x = -1234;
+		y = 1234;
+		REQUIRE(x.pos() == y);
+	}
+	SECTION("zero") {
+		x = y = 0;
+		REQUIRE(x.pos() == y);
+	}
+}
+TEST_CASE("neg", BIGINT_LABEL) {
+	BigInt x, y;
+	SECTION("positive") {
+		x = 1234;
+		y = -1234;
+		REQUIRE(x.neg() == y);
+	}
+	SECTION("negative") {
+		x = y = -1234;
+		REQUIRE(x.neg() == y);
+	}
+	SECTION("zero") {
+		x = y = 0;
+		REQUIRE(x.neg() == y);
+	}
+}

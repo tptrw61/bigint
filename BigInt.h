@@ -58,6 +58,9 @@ public:
 	bool isEven() const;
 	bool isOdd() const;
 
+	BigInt pos() const;
+	BigInt neg() const;
+
 	//boolean versions
 	bool sign() const;
 	bool sign(bool _sign);
