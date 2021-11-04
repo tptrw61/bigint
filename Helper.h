@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 #include "BigInt.h"
 
 using byte = BigInt::byte;
@@ -23,3 +24,5 @@ std::vector<byte> numToBytes(uint64_t x);
 void addVectors(std::vector<byte>& a, const std::vector<byte>& b);
 
 int compareVectors(const std::vector<byte>& l, const std::vector<byte>& r);
+
+bool isInt(const std::string& s);

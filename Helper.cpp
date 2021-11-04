@@ -1,4 +1,5 @@
 #include "Helper.h"
+#include <ctype.h>
 
 void invert(std::vector<byte>& bytes) {
 	for (int i = 0; i < (int)bytes.size(); i++) {
@@ -71,4 +72,16 @@ int compareVectors(const std::vector<byte>& l, const std::vector<byte>& r) {
 			return -1;
 	}
 	return 0;
+}
+
+bool isInt(const std::string& s) {
+	if (s.empty()) return false;
+	if (!s[0] == '-' && !isdigit(s[0])) return false;
+	if (s[0] == '-' && s.size() == 1) return false;
+	for (int i = 1; i < (int)s.size(); i++) {
+		if (!isdigit(s[i])) {
+			return false;
+		}
+	}
+	return true;
 }

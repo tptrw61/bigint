@@ -4,6 +4,25 @@
 #include <stdexcept>
 
 
+BigInt BigInt::fromStr(const std::string& s) {
+	if (!isInt(s)) throw new std::invalid_argument("arg is not an integer");
+	if (s == "0" || s == "-0") return 0;
+	int i = 0;
+	bool sign = POSITIVE;
+	BigInt x;
+	if (s[0] == '-') {
+		sign = NEGATIVE;
+		i = 1;
+	}
+	x = s[i++] - '0';
+	for (; i < (int)s.size(); i++) {
+		x *= 10;
+		x += s[i] - '0';
+	}
+	x.sign(sign);
+	return sign;
+}
+
 //class functions
 BigInt::BigInt() {
 	m_bytes.push_back(0);
@@ -22,6 +41,10 @@ BigInt::BigInt(int64_t x) {
 		m_sign = false;
 	}
 	reduce();
+}
+
+BigInt::BigInt(const std::string& s) {
+	*this = fromStr(s);
 }
 
 BigInt::BigInt(BigInt&& other) {
@@ -58,7 +81,7 @@ size_t BigInt::size() const {
 }
 
 bool BigInt::bit(int i) const {
-	if (i < 0) throw new std::domain_error("index must be positive");
+	if (i < 0) throw new std::out_of_range("index must be positive or zero");
 	int byteIndex = i / 8;
 	int bitIndex = i % 8;
 	if (byteIndex >= (int)size()) {
@@ -67,7 +90,7 @@ bool BigInt::bit(int i) const {
 	return (m_bytes[byteIndex] & (1 << bitIndex)) != 0;
 }
 bool BigInt::bit(int i, bool value) {
-	if (i < 0) throw new std::domain_error("index must be positive");
+	if (i < 0) throw new std::out_of_range("index must be positive or zero");
 	int byteIndex = i / 8;
 	int bitIndex = i % 8;
 	if (byteIndex >= (int)size()) {
@@ -99,6 +122,9 @@ BigInt& BigInt::operator=(int64_t x) {
 	}
 	reduce();
 	return *this;
+}
+BigInt& BigInt::operator=(const std::string& s) {
+	return *this = fromStr(s);
 }
 BigInt& BigInt::operator=(const BigInt& rhs) {
 	m_bytes = rhs.m_bytes;

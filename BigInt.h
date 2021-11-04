@@ -15,9 +15,11 @@ private:
 	std::vector<byte> m_bytes;
 	bool m_sign;
 
+	static BigInt fromStr(const std::string& s);
 public:
 	BigInt();
 	BigInt(int64_t x);
+	BigInt(const std::string& s);
 	BigInt(BigInt&& other);
 	BigInt(const BigInt& other);
 
@@ -35,6 +37,7 @@ public:
 
 	//assignment
 	BigInt& operator=(int64_t x);
+	BigInt& operator=(const std::string& s);
 	BigInt& operator=(const BigInt& rhs);
 	BigInt& operator=(BigInt&& rhs);
 
