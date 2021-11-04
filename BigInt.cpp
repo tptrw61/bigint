@@ -530,6 +530,28 @@ std::string BigInt::str() const {
 		s = '-' + s;
 	return s;
 }
+std::string BigInt::str(bool comma) const {
+	if (!comma) return str();
+	BigInt n = *this;
+	std::pair<BigInt, BigInt> ans;
+	n.sign(POSITIVE);
+	std::string s;
+	std::string lookup = "0123456789";
+	int count = -1; //its gotta be this way cause reasons
+	while (n != 0) {
+		ans = n.divmod(10);
+		count++;
+		if (count == 3) {
+			count = 0;
+			s = ',' + s;
+		}
+		s = lookup[ans.second.bytes()[0]] + s;
+		n = ans.first;
+	}
+	if (sign())
+		s = '-' + s;
+	return s;
+}
 
 std::ostream& operator<<(std::ostream& os, const BigInt& v) {
 	return os << v.str();

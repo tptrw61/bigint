@@ -109,6 +109,7 @@ public:
 
 	//to string
 	std::string str() const;
+	std::string str(bool comma) const;
 
 	friend std::ostream& operator<<(std::ostream& os, const BigInt& v);
 	

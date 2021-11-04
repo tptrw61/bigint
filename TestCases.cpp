@@ -885,6 +885,24 @@ TEST_CASE("str", BIGINT_LABEL) {
 		REQUIRE(x.str() == s);
 	}
 }
+TEST_CASE("str(comma)", BIGINT_LABEL) {
+	BigInt x;
+	SECTION("positive") {
+		x = 1234;
+		REQUIRE(x.str(true) == std::string("1,234"));
+	}
+	SECTION("negative") {
+		x = -3211234;
+		REQUIRE(x.str(true) == std::string("-3,211,234"));
+	}
+	SECTION("really big") {
+		x = 10;
+		x = x.pow(30);
+		CHECK(x.size() > sizeof(int64_t));
+		std::string s = "1,000,000,000,000,000,000,000,000,000,000";
+		REQUIRE(x.str(true) == s);
+	}
+}
 
 TEST_CASE("swap", BIGINT_LABEL) {
 	BigInt a = 12345;
