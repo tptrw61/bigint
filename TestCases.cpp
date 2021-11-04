@@ -334,7 +334,7 @@ TEST_CASE("operator>/operator<", BIGINT_LABEL) {
 		CHECK(b >= a);
 		REQUIRE(b <= a);
 	}
-	SECTION("part 6") {
+	SECTION("part 7") {
 		BigInt a = -60, b = -50;
 		CHECK_FALSE(a > b);
 		CHECK(a < b);
