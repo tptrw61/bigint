@@ -16,6 +16,8 @@ private:
 	bool m_sign;
 
 	static BigInt fromStr(const std::string& s);
+
+	std::pair<BigInt, BigInt> divmodbasic(const BigInt& rhs) const;
 public:
 	BigInt();
 	BigInt(int64_t x);

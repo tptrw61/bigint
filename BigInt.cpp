@@ -23,6 +23,23 @@ BigInt BigInt::fromStr(const std::string& s) {
 	return x;
 }
 
+std::pair<BigInt, BigInt> BigInt::divmodbasic(const BigInt& rhs) const {
+	if (IS_ZERO(rhs.m_bytes)) throw new std::domain_error("divide by zero");
+	if (IS_ZERO(bytes())) return std::pair<BigInt, BigInt>(0, 0);
+	BigInt q, r, n = *this, d = rhs;
+	n.sign(POSITIVE);
+	d.sign(POSITIVE);
+	for (int i = size() * 8 - 1; i >= 0; i--) {
+		r <<= 1;
+		r.bit(0, n.bit(i));
+		if (r >= d) {
+			r -= d;
+			q.bit(i, 1);
+		}
+	}
+	return std::pair<BigInt, BigInt>(q, r);
+}
+
 //class functions
 BigInt::BigInt() {
 	m_bytes.push_back(0);
@@ -388,17 +405,17 @@ BigInt BigInt::operator*(const BigInt& rhs) const {
 }
 
 BigInt& BigInt::operator/=(const BigInt& rhs) {
-	return *this = divmod(rhs).first;
+	return *this = divmodbasic(rhs).first;
 }
 BigInt BigInt::operator/(const BigInt& rhs) const {
-	return divmod(rhs).first;
+	return divmodbasic(rhs).first;
 }
 
 BigInt& BigInt::operator%=(const BigInt& rhs) {
-	return *this = divmod(rhs).second;
+	return *this = divmod(rhs.pos()).second;
 }
 BigInt BigInt::operator%(const BigInt& rhs) const {
-	return divmod(rhs).second;
+	return divmod(rhs.pos()).second;
 }
 
 /*
@@ -415,19 +432,10 @@ for i := n − 1 .. 0 do  -- Where n is number of bits in N
 end
 */
 std::pair<BigInt, BigInt> BigInt::divmod(const BigInt& rhs) const {
-	if (IS_ZERO(rhs.m_bytes)) throw new std::domain_error("divide by zero");
-	if (IS_ZERO(bytes())) return std::pair<BigInt, BigInt>(0, 0);
-	BigInt q, r, n = *this, d = rhs;
-	n.sign(POSITIVE);
-	d.sign(POSITIVE);
-	for (int i = size() * 8 - 1; i >= 0; i--) {
-		r <<= 1;
-		r.bit(0, n.bit(i));
-		if (r >= d) {
-			r -= d;
-			q.bit(i, 1);
-		}
-	}
+	std::pair<BigInt, BigInt> qr = this->divmodbasic(rhs);
+	BigInt q = qr.first;
+	BigInt r = qr.second;
+	BigInt d = rhs.pos();
 	if (sign() && !rhs.sign()) {
 		++q;
 		q.sign(NEGATIVE);
