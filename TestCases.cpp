@@ -741,7 +741,8 @@ TEST_CASE("divmod", BIGINT_LABEL) {
 		SECTION("pos DIVMOD pos") {
 			q = n / d;
 			r = n % d;
-			x = d * q + r;
+			ans = n.divmod(d);
+			x = d * ans.first + ans.second;
 			CHECK(q == (a / b));
 			CHECK(r == (a % b));
 			REQUIRE(n == x);
@@ -749,25 +750,28 @@ TEST_CASE("divmod", BIGINT_LABEL) {
 		SECTION("neg DIVMOD pos") {
 			q = -n / d;
 			r = -n % d;
-			x = d * q + r;
-			CHECK(q == -((a / b) + 1));
-			CHECK(r == (b - (a % b)));
+			ans = (-n).divmod(d);
+			x = d * ans.first + ans.second;
+			CHECK(q == (a / b));
+			CHECK(r == (a % b));
 			REQUIRE(-n == x);
 		}
 		SECTION("pos DIVMOD neg") {
 			q = n / -d;
 			r = n % -d;
-			x = -d * q + r;
-			CHECK(q == -(a / b));
+			ans = n.divmod(d);
+			x = d * ans.first + ans.second;
+			CHECK(q == (a / b));
 			CHECK(r == (a % b));
 			REQUIRE(n == x);
 		}
 		SECTION("neg DIVMOD neg") {
 			q = -n / -d;
 			r = -n % -d;
-			x = -d * q + r;
-			CHECK(q == ((a / b) + 1));
-			CHECK(r == (b - (a % b)));
+			ans = (-n).divmod(d);
+			x = d * ans.first + ans.second;
+			CHECK(q == (a / b));
+			CHECK(r == (a % b));
 			REQUIRE(-n == x);
 		}
 	}
@@ -779,7 +783,8 @@ TEST_CASE("divmod", BIGINT_LABEL) {
 		SECTION("pos DIVMOD pos") {
 			q = n / d;
 			r = n % d;
-			x = d * q + r;
+			ans = n.divmod(d);
+			x = d * ans.first + ans.second;
 			CHECK(q == (a / b));
 			CHECK(r == (a % b));
 			REQUIRE(n == x);
@@ -787,25 +792,28 @@ TEST_CASE("divmod", BIGINT_LABEL) {
 		SECTION("neg DIVMOD pos") {
 			q = -n / d;
 			r = -n % d;
-			x = d * q + r;
-			CHECK(q == -((a / b) + 1));
-			CHECK(r == (b - (a % b)));
+			ans = (-n).divmod(d);
+			x = d * ans.first + ans.second;
+			CHECK(q == (a / b));
+			CHECK(r == (a % b));
 			REQUIRE(-n == x);
 		}
 		SECTION("pos DIVMOD neg") {
 			q = n / -d;
 			r = n % -d;
-			x = -d * q + r;
-			CHECK(q == -(a / b));
+			ans = n.divmod(d);
+			x = d * ans.first + ans.second;
+			CHECK(q == (a / b));
 			CHECK(r == (a % b));
 			REQUIRE(n == x);
 		}
 		SECTION("neg DIVMOD neg") {
 			q = -n / -d;
 			r = -n % -d;
-			x = -d * q + r;
-			CHECK(q == ((a / b) + 1));
-			CHECK(r == (b - (a % b)));
+			ans = (-n).divmod(d);
+			x = d * ans.first + ans.second;
+			CHECK(q == (a / b));
+			CHECK(r == (a % b));
 			REQUIRE(-n == x);
 		}
 	}
@@ -817,7 +825,8 @@ TEST_CASE("divmod", BIGINT_LABEL) {
 		SECTION("pos DIVMOD pos") {
 			q = n / d;
 			r = n % d;
-			x = d * q + r;
+			ans = n.divmod(d);
+			x = d * ans.first + ans.second;
 			CHECK(q == (a / b));
 			CHECK(r == (a % b));
 			REQUIRE(n == x);
@@ -825,25 +834,28 @@ TEST_CASE("divmod", BIGINT_LABEL) {
 		SECTION("neg DIVMOD pos") {
 			q = -n / d;
 			r = -n % d;
-			x = d * q + r;
-			CHECK(q == -((a / b) + 1));
-			CHECK(r == (b - (a % b)));
+			ans = (-n).divmod(d);
+			x = d * ans.first + ans.second;
+			CHECK(q == (a / b));
+			CHECK(r == (a % b));
 			REQUIRE(-n == x);
 		}
 		SECTION("pos DIVMOD neg") {
 			q = n / -d;
 			r = n % -d;
-			x = -d * q + r;
-			CHECK(q == -(a / b));
+			ans = n.divmod(d);
+			x = d * ans.first + ans.second;
+			CHECK(q == (a / b));
 			CHECK(r == (a % b));
 			REQUIRE(n == x);
 		}
 		SECTION("neg DIVMOD neg") {
 			q = -n / -d;
 			r = -n % -d;
-			x = -d * q + r;
-			CHECK(q == ((a / b) + 1));
-			CHECK(r == (b - (a % b)));
+			ans = (-n).divmod(d);
+			x = d * ans.first + ans.second;
+			CHECK(q == (a / b));
+			CHECK(r == (a % b));
 			REQUIRE(-n == x);
 		}
 	}

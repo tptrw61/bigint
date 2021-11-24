@@ -412,10 +412,10 @@ BigInt BigInt::operator/(const BigInt& rhs) const {
 }
 
 BigInt& BigInt::operator%=(const BigInt& rhs) {
-	return *this = divmod(rhs.pos()).second;
+	return *this = divmodbasic(rhs.pos()).second;
 }
 BigInt BigInt::operator%(const BigInt& rhs) const {
-	return divmod(rhs.pos()).second;
+	return divmodbasic(rhs.pos()).second;
 }
 
 /*
